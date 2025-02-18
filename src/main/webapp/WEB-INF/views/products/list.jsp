@@ -19,24 +19,18 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">상품번호</th>
-		      <th scope="col">상품이름</th>
+		      <th scope="col">상품명</th>
 		      <th scope="col">이자율</th>
-		      <th scope="col">기간</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr>
-		      <th scope="row">1</th>
-		      <td>청년적금</td>
-		      <td>10%</td>
-		      <td>2년</td>
-		    </tr>
-		    <tr>
-		      <th scope="row">2</th>
-		      <td>군인적금</td>
-		      <td>5%</td>
-		      <td>전역시까지</td>
-		    </tr>
+		  	<c:forEach items="${list}" var="v">
+			    <tr>
+			      <th scope="row">${v.productNum}</th>
+			      <td><a href="./detail?productNum=${v.productNum}">${v.productName}</a></td>
+			      <td>${v.productRate}</td>
+			    </tr>
+		  	</c:forEach>
 		  </tbody>
 		</table>
 		<a href="./add" class="btn btn-success">상품 등록</a>

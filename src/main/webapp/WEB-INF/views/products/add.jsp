@@ -15,7 +15,7 @@
 	<div class="row col-md-8 offset-md-2">
 		<!--  contents 내용 작성 -->
 		<h1>Product Add</h1>
-		<form action="add" method="post">
+		<form action="./add" method="post">
 		  <div class="mb-3">
 		    <label for="inputProductName" class="form-label">상품명</label>
 		    <input type="text" placeholder="상품명 입력" name="productName" class="form-control" id="inputProductName">
