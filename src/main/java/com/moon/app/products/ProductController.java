@@ -19,6 +19,20 @@ public class ProductController {
 	public String getDetail() throws Exception {
 		System.out.println("Product Detail");
 		
-		return "products.detail";
+		return "products/detail";
+	}
+	
+	@RequestMapping(value = "add", method = RequestMethod.GET)
+	public String add() throws Exception {
+		System.out.println("Product Add");
+		
+		return "products/add";
+	}
+	
+	@RequestMapping(value = "add", method = RequestMethod.POST)
+	public String add2() throws Exception {
+		System.out.println("Product Add");
+		
+		return "products/add";
 	}
 }
