@@ -58,7 +58,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "add", method = RequestMethod.POST)
-	public String add2(ProductDTO productDTO, Model model) throws Exception {
+	public String add(ProductDTO productDTO, Model model) throws Exception {
 		/**
 		 * 파라미터 처리 방법
 		 * 1. 모든 요청 정보는 Request에 있다.(URL, METHOD, PARAMETER, COOKIE...)
@@ -83,5 +83,29 @@ public class ProductController {
 		
 		return "commons/result";
 //		return "redirect:./list";
+	}
+	
+	@RequestMapping(value = "update", method = RequestMethod.GET)
+	public String update(ProductDTO productDTO, Model model) throws Exception {
+		productDTO = productService.getDetail(productDTO);
+		
+		model.addAttribute("dto", productDTO);
+		
+		return "products/update";
+	}
+	
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public String update(ProductDTO productDTO) throws Exception {
+		int result = productService.update(productDTO);
+		
+		
+		return "redirect:./list";
+	}
+	
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String delete(ProductDTO productDTO) throws Exception {
+		int result = productService.delete(productDTO);
+		
+		return "redirect:./list";
 	}
 }

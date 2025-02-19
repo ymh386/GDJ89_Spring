@@ -37,6 +37,11 @@
 		    <textarea rows="10" cols="" class="form-control" readonly>${dto.productDetail}</textarea>
 		  </div>
 		</form>
+		<div class="col-md-12">
+			<a href="./update?productNum=${dto.productNum}" class="col-md-1 btn btn-success">수정</a>
+			<a href="./delete?productNum=${dto.productNum}" class="col-md-1 btn btn-danger">삭제</a>
+			<a href="./list" class="col-md-1 offset-md-8 btn btn-success">리스트</a>
+		</div>
 	</div>
 </div>
 

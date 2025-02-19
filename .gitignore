@@ -4,6 +4,7 @@
 ### My Custom ###
 DBConnection.java
 database.properties
+database-context.xml
 
 ### Eclipse ###
 .metadata

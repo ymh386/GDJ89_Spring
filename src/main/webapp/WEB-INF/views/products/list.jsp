@@ -33,7 +33,9 @@
 		  	</c:forEach>
 		  </tbody>
 		</table>
-		<a href="./add" class="btn btn-success">상품 등록</a>
+		<div class="col-md-4">
+			<a href="./add" class="btn btn-success">상품 등록</a>
+		</div>
 	</div>
 </div>
 
