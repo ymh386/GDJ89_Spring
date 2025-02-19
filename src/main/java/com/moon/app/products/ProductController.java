@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/products/*")
@@ -36,18 +37,24 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "detail", method = RequestMethod.GET)
-	public String getDetail(ProductDTO productDTO, Model model) throws Exception {
+	public ModelAndView getDetail(ProductDTO productDTO, Model model) throws Exception {
 		productDTO = productService.getDetail(productDTO);
+		ModelAndView mv = new ModelAndView();
+		//model
+		mv.addObject("dto", productDTO);
+		//view
+		mv.setViewName("products/detail");
+//		model.addAttribute("dto", productDTO);
 		
-		model.addAttribute("dto", productDTO);
-		
-		return "products/detail";
+		return mv;
 	}
 	
 	@RequestMapping(value = "add", method = RequestMethod.GET)
-	public String add() throws Exception {
+	public ModelAndView add(ModelAndView mv) throws Exception {
 		
-		return "products/add";
+		mv.setViewName("products/add");
+		return mv;
+//		return "products/add";
 	}
 	
 	@RequestMapping(value = "add", method = RequestMethod.POST)

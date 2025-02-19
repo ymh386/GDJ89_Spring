@@ -18,7 +18,7 @@ public class ProductDAO {
 	public List<ProductDTO> getList() throws Exception {
 		List<ProductDTO> ar = new ArrayList<ProductDTO>();
 		Connection con = DBConnection.getConnection();
-		String sql = "SELECT * FROM PRODUCTS ORDER BY PRODUCTNUM ASC";
+		String sql = "SELECT * FROM PRODUCTS ORDER BY PRODUCTNUM DESC";
 		PreparedStatement st = con.prepareStatement(sql);
 		ResultSet rs = st.executeQuery();
 		
@@ -53,6 +53,8 @@ public class ProductDAO {
 			productDTO.setProductRate(rs.getDouble("PRODUCTRATE"));
 			productDTO.setProductDate(rs.getDate("PRODUCTDATE"));
 			productDTO.setProductDetail(rs.getString("PRODUCTDETAIL"));
+		}else {
+			productDTO = null;
 		}
 		
 		DBConnection.disConnect(rs, st, con);
