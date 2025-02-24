@@ -5,14 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.moon.app.pages.Pager;
+
 @Service
 public class NoticeService {
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
 
-	public List<NoticeDTO> getList(NoticeDTO noticeDTO) throws Exception {
-		return noticeDAO.getList(noticeDTO);
+	public List<NoticeDTO> getList(Pager pager) throws Exception {
+		Long totalCount = noticeDAO.count();
+		
+		pager.make(totalCount);
+		
+		pager.makeNum();
+		
+		return noticeDAO.getList(pager);
 	}
 	
 	public NoticeDTO getDetail(NoticeDTO noticeDTO, boolean check)throws Exception{

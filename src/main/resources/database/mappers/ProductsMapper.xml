@@ -15,9 +15,36 @@
   	</select>
   
   	<!-- DAO의 메서드명을 ID로 사용 -->
-  	<select id="getList" resultType="ProductDTO">
+  	<select id="getList" parameterType="Pager" resultType="ProductDTO">
   		<!-- ResultType => 컬럼명과 DTO의 setter의 이름과 같은 것을 맵핑 -->
-  		SELECT * FROM PRODUCTS ORDER BY PRODUCTNUM DESC
+  		SELECT * FROM 
+			(SELECT ROWNUM R, M.* FROM 
+				(
+					SELECT * 
+					FROM products 
+					WHERE 
+					<!-- #사용하지 않음 -->
+					<choose>
+						<when test="kind=='k2'">
+						PRODUCTDETAIL LIKE '%'||#{search}||'%'
+						</when>
+						<when test="kind=='k3'">
+						PRODUCTNAME LIKE '%'||#{search}||'%'
+						OR
+						PRODUCTDETAIL LIKE '%'||#{search}||'%'
+						</when>
+						<otherwise>
+						PRODUCTNAME LIKE '%'||#{search}||'%'
+						</otherwise>
+					</choose>
+					ORDER BY PRODUCTNUM DESC
+				 ) M
+			 )
+		WHERE R BETWEEN #{startNum} AND #{endNum}
+  	</select>
+  	
+  	<select id="count" resultType="java.lang.Long">
+  		SELECT COUNT(PRODUCTNUM) FROM PRODUCTS
   	</select>
   	
   	<select id="getDetail" resultType="ProductDTO" parameterType="ProductDTO">

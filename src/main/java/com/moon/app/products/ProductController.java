@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.moon.app.pages.Pager;
+
 @Controller
 @RequestMapping(value = "/products/*")
 public class ProductController {
@@ -30,9 +32,10 @@ public class ProductController {
 	 */
 	
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String getList(Model model) throws Exception {
-		List<ProductDTO> ar = productService.getList();
+	public String getList(Model model, Pager pager) throws Exception {
+		List<ProductDTO> ar = productService.getList(pager);
 		
+		model.addAttribute("pager", pager);
 		model.addAttribute("list", ar);
 		return "products/list";
 	}

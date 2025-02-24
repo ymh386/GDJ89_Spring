@@ -12,6 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.moon.app.pages.Pager;
 import com.moon.app.utils.DBConnection;
 
 //annotation(설명, 실행)
@@ -23,10 +24,15 @@ public class ProductDAO {
 	private final String NAMESPACE="com.moon.app.products.ProductDAO.";
 
 	//list
-	public List<ProductDTO> getList() throws Exception {
+	public List<ProductDTO> getList(Pager pager) throws Exception {
 		
-		return sqlSession.selectList(NAMESPACE + "getList");
+		return sqlSession.selectList(NAMESPACE + "getList", pager);
 		
+	}
+	
+	//count
+	public Long count() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"count");
 	}
 	
 	//detail

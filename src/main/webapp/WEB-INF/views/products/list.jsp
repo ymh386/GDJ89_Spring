@@ -15,6 +15,25 @@
 	<div class="row col-md-8 offset-md-2">
 		<!--  contents 내용 작성 -->
 		<h1>Product List Page</h1>
+		<form action="./list" class="row row-cols-lg-auto g-3 align-items-center">
+			  <div class="col-12">
+			    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+			    <select name="kind" class="form-select" id="inlineFormSelectPref">
+			      <option value="k1">제목</option>
+			      <option value="k2">내용</option>
+			      <option value="k3">제목+내용</option>
+			    </select>
+			  </div>
+			  
+			  <div class="col-12">
+			    <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
+			      <input type="text" name="search" class="form-control" id="inlineFormInputGroupUsername" placeholder="검색어 입력">
+			    </div>
+			  <div class="col-12">
+			    <button type="submit" class="btn btn-success">검색</button>
+			  </div>
+		</form>
+		
 		<table class="table table-success table-striped">
 		  <thead>
 		    <tr>
@@ -33,6 +52,25 @@
 		  	</c:forEach>
 		  </tbody>
 		</table>
+		<div >
+			<nav aria-label="Page navigation example" style="width: 300px; margin: 0px auto;">
+	  			<ul class="pagination">
+	  			  <li class="page-item">
+	   			   <a class="page-link" href="./list?page=${pager.start-1}" aria-label="Previous">
+	   		     <span aria-hidden="true">&laquo;</span>
+	   			   </a>
+			    </li>
+			    <c:forEach begin="${pager.start}" end="${pager.end}" var="i">
+			    	<li class="page-item"><a class="page-link" href="./list?page=${i}">${i}</a></li>
+			    </c:forEach>
+			    <li class="page-item ${pager.endCheck?'disabled':''}">
+			      <a class="page-link" href="./list?page=${pager.end+1}" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+		</div>
 		<div class="col-md-4">
 			<c:if test="${not empty user and user.userName == 'admin'}">
 				<a href="./add" class="btn btn-success">상품 등록</a>

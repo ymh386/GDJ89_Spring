@@ -8,5 +8,7 @@
 		<typeAlias type="com.moon.app.users.UserDTO" alias="UserDTO"/>
 		<typeAlias type="com.moon.app.products.ProductDTO" alias="ProductDTO"/>
 		<typeAlias type="com.moon.app.notice.NoticeDTO" alias="NoticeDTO"/>
+		<typeAlias type="com.moon.app.pages.Pager" alias="Pager"/>
+		<typeAlias type="java.util.Map" alias="Map"/>
 	</typeAliases>
 </configuration>

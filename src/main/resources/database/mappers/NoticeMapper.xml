@@ -5,7 +5,18 @@
   
   <mapper namespace="com.moon.app.notice.NoticeDAO">
   	<select id="getList" resultType="NoticeDTO">
-  		SELECT * FROM NOTICE ORDER BY BOARDNUM DESC
+  		SELECT * FROM 
+			(SELECT ROWNUM R, M.* FROM 
+				(
+					SELECT * 
+					FROM NOTICE 
+					ORDER BY BOARDNUM DESC
+				 ) M
+			 )
+		WHERE R BETWEEN #{startNum} AND #{endNum}
+  	</select>
+  	<select id="count" resultType="java.lang.Long">
+  		SELECT COUNT(BOARDNUM) FROM NOTICE
   	</select>
   	<select id="getDetail" parameterType="NoticeDTO" resultType="NoticeDTO">
   		SELECT * FROM NOTICE WHERE BOARDNUM=#{boardNum}
