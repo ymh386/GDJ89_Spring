@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--  mybatis 설정 -->
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.moon.app.users.UserDTO" alias="UserDTO"/>
+		<typeAlias type="com.moon.app.products.ProductDTO" alias="ProductDTO"/>
+		<typeAlias type="com.moon.app.notice.NoticeDTO" alias="NoticeDTO"/>
+	</typeAliases>
+</configuration>

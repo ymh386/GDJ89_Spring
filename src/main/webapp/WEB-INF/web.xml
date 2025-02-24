@@ -25,6 +25,7 @@
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<!-- 별도 파일중에 하나를 사용할 수 있도록 해줌 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>

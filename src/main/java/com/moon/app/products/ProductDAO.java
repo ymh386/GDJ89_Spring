@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,12 +21,11 @@ public class ProductDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	private final String NAMESPACE="com.moon.app.products.ProductDAO.";
-	
+
 	//list
 	public List<ProductDTO> getList() throws Exception {
 		
 		return sqlSession.selectList(NAMESPACE + "getList");
-		
 		
 	}
 	
@@ -46,7 +46,7 @@ public class ProductDAO {
 	
 	//update
 	public int update(ProductDTO productDTO) throws Exception {
-		
+	
 		return sqlSession.update(NAMESPACE + "update", productDTO);
 	}
 	
@@ -54,6 +54,14 @@ public class ProductDAO {
 	public int delete(ProductDTO productDTO) throws Exception {
 		
 		return sqlSession.delete(NAMESPACE + "delete", productDTO);
+	}
+	
+	public Long test() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "test");
+	}
+	
+	public Map<String, Object> test2() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "test2");
 	}
 
 }

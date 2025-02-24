@@ -14,29 +14,31 @@
 <div class="container-fluid my-5">
 	<div class="row col-md-8 offset-md-2">
 		<!--  contents 내용 작성 -->
-		<h1>Product List Page</h1>
+		<h1>Notice</h1>
 		<table class="table table-success table-striped">
 		  <thead>
 		    <tr>
-		      <th scope="col">상품번호</th>
-		      <th scope="col">상품명</th>
-		      <th scope="col">이자율</th>
+		      <th scope="col">NO</th>
+		      <th scope="col">TITLE</th>
+		      <th scope="col">WRITER</th>
+		      <th scope="col">DATE</th>
+		      <th scope="col">HIT</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  	<c:forEach items="${list}" var="v">
 			    <tr>
-			      <th scope="row">${v.productNum}</th>
-			      <td><a href="./detail?productNum=${v.productNum}">${v.productName}</a></td>
-			      <td>${v.productRate}</td>
+			      <th scope="row">${v.boardNum}</th>
+			      <td><a href="./detail?boardNum=${v.boardNum}">${v.boardTitle}</a></td>
+			      <td>${v.userName}</td>
+			      <td>${v.boardDate}</td>
+			      <td>${v.boardHit}</td>
 			    </tr>
 		  	</c:forEach>
 		  </tbody>
 		</table>
 		<div class="col-md-4">
-			<c:if test="${not empty user and user.userName == 'admin'}">
-				<a href="./add" class="btn btn-success">상품 등록</a>
-			</c:if>
+			<a href="./add" class="btn btn-success">글 작성</a>
 		</div>
 	</div>
 </div>
