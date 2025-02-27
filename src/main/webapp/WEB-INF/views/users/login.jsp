@@ -26,7 +26,7 @@
 		    <input type="password" placeholder="비밀번호 입력" name="password" class="form-control" id="inputPassword">
 		  </div>
 		  <div class="col-md-4">
-			  <button type="submit" class="btn btn-success">로그인</button>
+			  <button id="login" type="submit" class="btn btn-success">로그인</button>
 			  <button type="reset" class="btn btn-danger">초기화</button>
 		  </div>
 		</form>
@@ -34,7 +34,7 @@
 </div>
 
 
-
+<script src="../../../resources/js/login.js"></script>
 <c:import url="/WEB-INF/views/templates/layout_footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/templates/boot_js.jsp"></c:import>
 </body>

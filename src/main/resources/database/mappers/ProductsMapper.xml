@@ -43,8 +43,23 @@
 		WHERE R BETWEEN #{startNum} AND #{endNum}
   	</select>
   	
-  	<select id="count" resultType="java.lang.Long">
-  		SELECT COUNT(PRODUCTNUM) FROM PRODUCTS
+  	<select id="count" resultType="java.lang.Long" parameterType="Pager">
+  		SELECT COUNT(PRODUCTNUM) FROM PRODUCTS 
+  		WHERE PRODUCTNUM > 0 AND 
+  		<choose>
+  			<when test="kind=='k2'">
+  				PRODUCTDETAIL LIKE '%'||#{search}||'%'
+  			</when>
+  			<when test="kind=='k3'">
+  				PRODUCTNAME LIKE '%'||#{search}||'%'
+				OR
+				PRODUCTDETAIL LIKE '%'||#{search}||'%'
+  			</when>
+  			<otherwise>
+  				PRODUCTNAME LIKE '%'||#{search}||'%'
+  			</otherwise>
+  		</choose>
+  		
   	</select>
   	
   	<select id="getDetail" resultType="ProductDTO" parameterType="ProductDTO">

@@ -56,15 +56,15 @@
 			<nav aria-label="Page navigation example" style="width: 300px; margin: 0px auto;">
 	  			<ul class="pagination">
 	  			  <li class="page-item">
-	   			   <a class="page-link" href="./list?page=${pager.start-1}" aria-label="Previous">
+	   			   <a class="page-link" href="./list?page=${pager.start-1}&kind=${param.kind}&search=${pager.search}" aria-label="Previous">
 	   		     <span aria-hidden="true">&laquo;</span>
 	   			   </a>
 			    </li>
 			    <c:forEach begin="${pager.start}" end="${pager.end}" var="i">
-			    	<li class="page-item"><a class="page-link" href="./list?page=${i}">${i}</a></li>
+			    	<li class="page-item"><a class="page-link" href="./list?page=${i}&kind=${param.kind}&search=${pager.search}">${i}</a></li>
 			    </c:forEach>
 			    <li class="page-item ${pager.endCheck?'disabled':''}">
-			      <a class="page-link" href="./list?page=${pager.end+1}" aria-label="Next">
+			      <a class="page-link" href="./list?page=${pager.end+1}&kind=${param.kind}&search=${pager.search}" aria-label="Next">
 			        <span aria-hidden="true">&raquo;</span>
 			      </a>
 			    </li>

@@ -31,8 +31,8 @@ public class ProductDAO {
 	}
 	
 	//count
-	public Long count() throws Exception {
-		return sqlSession.selectOne(NAMESPACE+"count");
+	public Long count(Pager pager) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"count", pager);
 	}
 	
 	//detail
