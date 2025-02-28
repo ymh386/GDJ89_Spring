@@ -26,18 +26,22 @@
   		INSERT INTO QNA 
   			(BOARDNUM, BOARDTITLE, BOARDDATE, BOARDCONTENT, BOARDHIT, USERNAME, BOARDREF, BOARDSTEP, BOARDDEPTH)
   		VALUES
-  			(NOTICE_SEQ.NEXTVAL, #{boardTitle}, sysdate, #{boardContent}, 0, #{userName}, NOTICE_SEQ.CURRVAL, 0, 0)	
+  			(NOTICE_SEQ.NEXTVAL, #{boardTitle}, SYSDATE, #{boardContent}, 0, #{userName}, NOTICE_SEQ.CURRVAL, 0, 0)	
   	</insert>
   	<insert id="reply" parameterType="QnaDTO">
   		INSERT INTO QNA 
   			(BOARDNUM, BOARDTITLE, BOARDDATE, BOARDCONTENT, BOARDHIT, USERNAME, BOARDREF, BOARDSTEP, BOARDDEPTH)
   		VALUES
-  			(NOTICE_SEQ.NEXTVAL, #{boardTitle}, sysdate, #{boardContent}, 0, #{userName}, #{boardRef}, #{boardStep}, #{boardDepth})
+  			(NOTICE_SEQ.NEXTVAL, #{boardTitle}, SYSDATE, #{boardContent}, 0, #{userName}, 
+  			(SELECT BOARDREF FROM QNA WHERE BOARDNUM=#{boardNum}),
+  			(SELECT BOARDSTEP+1 FROM QNA WHERE BOARDNUM=#{boardNum}),
+  			(SELECT BOARDDEPTH+1 FROM QNA WHERE BOARDNUM=#{boardNum}))
   	</insert>
   	<update id="updateStep" parameterType="QnaDTO">
-  		UPDATE QNA SET
-  			BOARDSTEP=BOARDSTEP+1
-  		WHERE BOARDREF = #{boardRef} AND BOARDSTEP > #{boardStep}
+  		UPDATE QNA SET BOARDSTEP=BOARDSTEP+1
+  		WHERE BOARDREF=(SELECT BOARDREF FROM QNA WHERE BOARDNUM=#{boardNum})
+  		AND
+  		BOARDSTEP>(SELECT BOARDSTEP FROM QNA WHERE BOARDNUM=#{boardNum})
   	</update>
   	<update id="update" parameterType="QnaDTO">
   		UPDATE QNA SET
