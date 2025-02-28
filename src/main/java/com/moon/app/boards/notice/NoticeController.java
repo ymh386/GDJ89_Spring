@@ -1,4 +1,4 @@
-package com.moon.app.notice;
+package com.moon.app.boards.notice;
 
 import java.io.Reader;
 import java.util.HashSet;
@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.moon.app.boards.BoardDTO;
 import com.moon.app.pages.Pager;
 import com.moon.app.users.UserDTO;
 
@@ -21,26 +23,31 @@ public class NoticeController {
 	
 	@Autowired
 	private NoticeService noticeService;
+	
+	@ModelAttribute("kind")
+	public String getKind() {
+		return "Notice";
+	}
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String getList(NoticeDTO noticeDTO, Model model, Pager pager) throws Exception {
-		List<NoticeDTO> ar = noticeService.getList(pager);
+	public String getList(Model model, Pager pager) throws Exception {
+		List<BoardDTO> ar = noticeService.getList(pager);
 		
 		model.addAttribute("pager", pager);
 		model.addAttribute("list", ar);
 		
-		return "notice/list";
+		return "board/list";
 	}
 	
 	@RequestMapping(value="detail", method = RequestMethod.GET)
-	public void getDetail(NoticeDTO noticeDTO, Model model, HttpSession session)throws Exception{
+	public String getDetail(NoticeDTO boardDTO, Model model, HttpSession session)throws Exception{
 		//"board" : set(글번호들,,)
 		Object obj = session.getAttribute("board");
 		boolean check=false;
 		if(obj != null) {
 			HashSet<Long> ar = (HashSet<Long>)obj;
-			if(!ar.contains(noticeDTO.getBoardNum())) {
-				ar.add(noticeDTO.getBoardNum());
+			if(!ar.contains(boardDTO.getBoardNum())) {
+				ar.add(boardDTO.getBoardNum());
 				check=true;
 			}else {
 				
@@ -48,13 +55,15 @@ public class NoticeController {
 			}
 		}else {
 			HashSet<Long> num = new HashSet<Long>();
-			num.add(noticeDTO.getBoardNum());
+			num.add(boardDTO.getBoardNum());
 			session.setAttribute("board", num);
 			check=true;
 		}
 		
-		noticeDTO= noticeService.getDetail(noticeDTO, check);
-		model.addAttribute("dto", noticeDTO);
+		boardDTO= (NoticeDTO)noticeService.getDetail(boardDTO, check);
+		model.addAttribute("dto", boardDTO);
+		
+		return "board/detail";
 	}
 	@RequestMapping(value="add", method = RequestMethod.GET)
 	public String add(HttpSession session, Model model)throws Exception{
@@ -63,7 +72,7 @@ public class NoticeController {
 			model.addAttribute("result", "로그인 후 작성 가능");
 			model.addAttribute("path", "./list");
 		}else {
-			return "/notice/add";
+			return "/board/boardForm";
 		}
 		
 		return "commons/result";
@@ -71,33 +80,35 @@ public class NoticeController {
 		
 	
 	@RequestMapping(value="add", method = RequestMethod.POST)
-	public String add(NoticeDTO noticeDTO, HttpSession session)throws Exception{
+	public String add(NoticeDTO boardDTO, HttpSession session)throws Exception{
 		
 		UserDTO userDTO = (UserDTO)session.getAttribute("user");
-		noticeDTO.setUserName(userDTO.getUserName());
-		int result = noticeService.add(noticeDTO);
+		boardDTO.setUserName(userDTO.getUserName());
+		int result = noticeService.add(boardDTO);
 		
 		return "redirect:./list";
 	}
 	
 	@RequestMapping(value="update", method = RequestMethod.GET)
-	public void update(NoticeDTO noticeDTO, Model model)throws Exception{
-		noticeDTO = noticeService.getDetail(noticeDTO, false);
-		model.addAttribute("dto", noticeDTO);
+	public String update(NoticeDTO boardDTO, Model model)throws Exception{
+		boardDTO = (NoticeDTO)noticeService.getDetail(boardDTO, false);
+		model.addAttribute("dto", boardDTO);
+		
+		return "board/boardForm";
 	}
 	
 	@RequestMapping(value="update", method = RequestMethod.POST)
-	public String update(NoticeDTO noticeDTO)throws Exception{
-		int result =  noticeService.update(noticeDTO);
+	public String update(NoticeDTO boardDTO)throws Exception{
+		int result =  noticeService.update(boardDTO);
 		
 		//return "redirect:./list";
-		return "redirect:./detail?boardNum="+noticeDTO.getBoardNum();
+		return "redirect:./detail?boardNum="+boardDTO.getBoardNum();
 		
 	}
 	
 	@RequestMapping(value="delete", method = RequestMethod.GET)
-	public String delete(NoticeDTO noticeDTO, Model model)throws Exception{
-		int result = noticeService.delete(noticeDTO);
+	public String delete(BoardDTO boardDTO, Model model)throws Exception{
+		int result = noticeService.delete(boardDTO);
 		String s = "삭제 실패";
 		if(result>0) {
 			s = "삭제 성공";

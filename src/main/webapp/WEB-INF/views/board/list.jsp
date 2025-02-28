@@ -14,7 +14,7 @@
 <div class="container-fluid my-5">
 	<div class="row col-md-8 offset-md-2">
 		<!--  contents 내용 작성 -->
-		<h1>Notice</h1>
+		<h1>${kind} List</h1>
 		<table class="table table-success table-striped">
 		  <thead>
 		    <tr>
@@ -29,7 +29,16 @@
 		  	<c:forEach items="${list}" var="v">
 			    <tr>
 			      <th scope="row">${v.boardNum}</th>
-			      <td><a href="./detail?boardNum=${v.boardNum}">${v.boardTitle}</a></td>
+			      <td>
+			      	<a href="./detail?boardNum=${v.boardNum}">
+			      		<c:catch>
+			      			<c:forEach begin="1" end="${v.boardDepth}">-></c:forEach>${v.boardTitle}
+			      		</c:catch>
+			      		<c:if test="${kind == 'Notice'}">
+			      			${v.boardTitle}
+			      		</c:if>
+			      	</a>
+			      </td>
 			      <td>${v.userName}</td>
 			      <td>${v.boardDate}</td>
 			      <td>${v.boardHit}</td>

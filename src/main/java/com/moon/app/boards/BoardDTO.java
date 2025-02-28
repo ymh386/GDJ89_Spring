@@ -1,8 +1,9 @@
-package com.moon.app.notice;
+package com.moon.app.boards;
 
 import java.sql.Date;
 
-public class NoticeDTO {
+public class BoardDTO {
+
 	
 	private Long boardNum;
 	private String boardTitle;
@@ -47,5 +48,4 @@ public class NoticeDTO {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 }

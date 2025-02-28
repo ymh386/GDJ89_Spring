@@ -14,9 +14,9 @@
 <div class="container-fluid my-5">
 	<div class="row col-md-8 offset-md-2">
 		<!--  contents 내용 작성 -->
-		<a href="./detail?boardNum=${dto.boardNum}" class="offset-md-11 btn-close"></a> 
-		<h1>Notice Update</h1>
-		<form action="./update?boardNum=${dto.boardNum}" method="post">
+		<a href="./list" class="offset-md-11 btn-close"></a> 
+		<h1>${kind} Form</h1>
+		<form action="" method="post">
 			<input type="hidden" name="boardNum" value="${dto.boardNum}">
 		  <div class="mb-3">
 		    <label for="inputBoardTitle" class="form-label">Title</label>
@@ -27,7 +27,7 @@
 		    <textarea rows="10" cols="" name="boardContent" class="form-control" id="inputProductDetail">${dto.boardContent}</textarea>
 		  </div>
 		  <div class="col-md-4">
-			  <button type="submit" class="btn btn-success">글 수정</button>
+			  <button type="submit" class="btn btn-success">확인</button>
 			  <button type="reset" class="btn btn-danger">초기화</button>
 		  </div>
 		</form>

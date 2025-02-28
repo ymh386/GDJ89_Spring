@@ -14,8 +14,7 @@
 <div class="continer-fluid my-5">
 	<div class="row col-md-8 offset-md-2">
 		<!-- contents 내용 작성 -->
-		<h1>Notice Detail Page</h1>
-		
+		<h1>${kind} Detail</h1>
 		<table class="table table-dark ">
 			<thead>
 				<tr >
@@ -45,8 +44,11 @@
 	
 		
 		<div class="col-md-12">
-			<a href="./update?boardNum=${dto.boardNum}" class="btn btn-success">수정</a>
-			<a href="./delete?boardNum=${dto.boardNum}" class="btn btn-danger">삭제</a>
+			<c:if test="${not empty user and dto.userName == user.userName}">
+				<a href="./update?boardNum=${dto.boardNum}" class="btn btn-success">수정</a>
+				<a href="./delete?boardNum=${dto.boardNum}" class="btn btn-danger">삭제</a>
+			</c:if>
+			<a href="./reply?boardNum=${dto.boardNum}" class="btn btn-success">답글</a>
 			<a href="./list" class="col-md-1 offset-md-8 btn btn-success">리스트</a>
 		</div>		
 		
