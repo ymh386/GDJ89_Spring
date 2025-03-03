@@ -16,7 +16,7 @@
 		<!--  contents 내용 작성 -->
 		<a href="../index" class="offset-md-11 btn-close"></a> 
 		<h1>User Join</h1>
-		<form action="./join" method="post">
+		<form action="./join" method="post" enctype="multipart/form-data">
 		  <div class="mb-3">
 		    <label for="inputUserName" class="form-label">Username</label>
 		    <input type="text" placeholder="아이디 입력" name="userName" class="form-control" id="inputUserName">
@@ -36,6 +36,10 @@
 		  <div class="mb-3">
 		    <label for="inputEmail" class="form-label">Email</label>
 		    <input type="email" name="email" class="form-control" id="inputEmail">
+		  </div>
+		  <div class="mb-3">
+		    <label for="profile" class="form-label">Profile</label>
+		    <input type="file" name="profile" class="form-control" id="profile">
 		  </div>
 		  <div class="col-md-4">
 			  <button type="submit" class="btn btn-success">가입</button>

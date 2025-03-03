@@ -33,6 +33,9 @@
 		    <input type="email" class="form-control" value="${dto.email}" readonly>
 		  </div>
 		</form>
+		<div class="alert alert-success" role="alert">
+			<img alt="" src="/resources/images/profiles/${not empty dto.userFileDTO.fileName ? dto.userFileDTO.fileName:'default.png'}">
+		</div>
 		<div class="col-md-8">
 			<a href="/accounts/list" class="btn btn-success">계좌정보</a>
 		</div>

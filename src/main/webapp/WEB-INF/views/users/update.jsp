@@ -16,15 +16,7 @@
 		<!--  contents 내용 작성 -->
 		<a href="./mypage?userName=${dto.userName}" class="offset-md-11 btn-close"></a> 
 		<h1>User Update</h1>
-		<form action="./update" method="post">
-		  <div class="mb-3">
-		    <label for="inputUserName" class="form-label">Username</label>
-		    <input type="text" placeholder="아이디 입력" name="userName" value="${dto.userName}" class="form-control" id="inputUserName" readonly>
-		  </div>
-		  <div class="mb-3">
-		    <label for="inputPassword" class="form-label">Password</label>
-		    <input type="password" placeholder="비밀번호 입력" name="password" value="${dto.password}" class="form-control" id="inputPassword">
-		  </div>
+		<form action="./update" method="post" enctype="multipart/form-data">
 		  <div class="mb-3">
 		    <label for="inputName" class="form-label">Name</label>
 		    <input type="text" name="name" value="${dto.name}" class="form-control" id="inputName">
@@ -36,6 +28,13 @@
 		  <div class="mb-3">
 		    <label for="inputEmail" class="form-label">Email</label>
 		    <input type="email" name="email" value="${dto.email}" class="form-control" id="inputEmail">
+		  </div>
+		  <div class="mb-3">
+		    <label for="profile" class="form-label">Profile</label>
+		    <input type="file" name="profile" class="form-control" id="profile">
+		  </div>
+		  <div>
+		  	${user.userFileDTO.oldName} <span class="btn text-danger">X</span>
 		  </div>
 		  <div class="col-md-4">
 			  <button type="submit" class="btn btn-success">수정</button>

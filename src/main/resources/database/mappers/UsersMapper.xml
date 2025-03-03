@@ -5,24 +5,52 @@
   
 <mapper namespace="com.moon.app.users.UserDAO">
 
-<insert id="join" parameterType="UserDTO">
-	INSERT INTO USERS VALUES (#{userName}, #{password}, #{name}, #{phone}, #{email})
-</insert>
-
-<select id="login" resultType="UserDTO" parameterType="UserDTO">
-	SELECT * FROM USERS WHERE USERNAME=#{userName} AND PASSWORD=#{password}
-</select>
-
-<select id="getDetail" resultType="UserDTO" parameterType="UserDTO">
-	SELECT * FROM USERS WHERE USERNAME=#{userName}
-</select>
-
-<update id="update" parameterType="UserDTO">
-	UPDATE USERS SET USERNAME=#{userName}, PASSWORD=#{password}, NAME=#{name}, PHONE=#{phone}, EMAIL=#{email} WHERE USERNAME=#{userName}
-</update>
-
-<delete id="delete" parameterType="UserDTO">
-	DELETE USERS WHERE USERNAME=#{userName}
-</delete>
+	<!-- 파일저장 -->
+	<insert id="upload" parameterType="UserFileDTO">
+		INSERT INTO PROFILE VALUES (#{userName}, #{fileName}, #{oldName})
+	</insert>
+	
+	<insert id="join" parameterType="UserDTO">
+		INSERT INTO USERS VALUES (#{userName}, #{password}, #{name}, #{phone}, #{email})
+	</insert>
+	
+	<select id="login" resultType="UserDTO" parameterType="UserDTO">
+		SELECT * FROM USERS WHERE USERNAME=#{userName} AND PASSWORD=#{password}
+	</select>
+	
+	<select id="getDetail" resultMap="getDetailResult" parameterType="UserDTO">
+		SELECT * FROM USERS U
+			LEFT OUTER JOIN
+			PROFILE P
+			USING(USERNAME)
+		WHERE USERNAME=#{userName}
+	</select>
+	
+	<resultMap type="UserDTO" id="getDetailResult">
+		<!-- PK column: 컬럼명, property: setter의 이름 -->
+		<id column="USERNAME" property="userName"/>
+		<!--  그외 나머지 column: 컬럼명, property: setter의 이름 -->
+		<result column="PASSWORD" property="password"/>
+		<result column="NAME" property="name"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<!--  1:1  -->
+		<association property="userFileDTO" javaType="UserFileDTO">
+			<result column="FILENAME" property="fileName"/>
+			<result column="OLDNAME" property="oldName"/>
+		</association>
+	</resultMap>
+	
+	<update id="update" parameterType="UserDTO">
+		UPDATE USERS SET NAME=#{name}, PHONE=#{phone}, EMAIL=#{email} WHERE USERNAME=#{userName}
+	</update>
+	
+	<update id="updateFile" parameterType="UserFileDTO">
+		UPDATE PROFILE SET FILENAME=#{fileName}, OLDNAME=#{oldName} WHERE USERNAME=#{userName}
+	</update>
+	
+	<delete id="delete" parameterType="UserDTO">
+		DELETE USERS WHERE USERNAME=#{userName}
+	</delete>
 
 </mapper>

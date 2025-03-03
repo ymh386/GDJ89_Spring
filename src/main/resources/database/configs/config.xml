@@ -6,6 +6,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.moon.app.users.UserDTO" alias="UserDTO"/>
+		<typeAlias type="com.moon.app.users.UserFileDTO" alias="UserFileDTO"/>
 		<typeAlias type="com.moon.app.products.ProductDTO" alias="ProductDTO"/>
 		<typeAlias type="com.moon.app.boards.notice.NoticeDTO" alias="NoticeDTO"/>
 		<typeAlias type="com.moon.app.boards.qna.QnaDTO" alias="QnaDTO"/>
