@@ -20,6 +20,7 @@
 		  <div class="mb-3">
 		    <label for="inputUserName" class="form-label">Username</label>
 		    <input type="text" placeholder="아이디 입력" name="userName" class="form-control" id="inputUserName">
+			<div id="userNameResult"></div>
 		  </div>
 		  <div class="mb-3">
 		    <label for="inputPassword" class="form-label">Password</label>
@@ -53,5 +54,6 @@
 
 <c:import url="/WEB-INF/views/templates/layout_footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/templates/boot_js.jsp"></c:import>
+<script src="/resources/js/users/join.js"></script>
 </body>
 </html>

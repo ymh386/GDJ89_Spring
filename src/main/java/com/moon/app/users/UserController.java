@@ -1,5 +1,7 @@
 package com.moon.app.users;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,12 +14,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.moon.app.products.ProductDTO;
+
 @Controller
 @RequestMapping(value = "/users/*")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@RequestMapping(value = "cart", method = RequestMethod.GET)
+	public String cart(CartDTO cartDTO, HttpSession session, Model model) throws Exception {
+		List<CartDTO> ar = userService.cart(cartDTO);
+		
+		model.addAttribute("list", ar);
+		
+		return "users/cart";
+		
+	}
+	
+	@RequestMapping(value = "addCart", method = RequestMethod.GET)
+	public String addCart(CartDTO cartDTO, HttpSession session, Model model) throws Exception {
+		UserDTO userDTO = (UserDTO)session.getAttribute("user");
+		cartDTO.setUserName(userDTO.getUserName());
+		int result = userService.addCart(cartDTO);
+		
+		model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
+	}
+	
+	//	/users/check
+	//check
+	@RequestMapping(value = "check", method = RequestMethod.GET)
+	public String check(UserDTO userDTO, Model model) throws Exception {
+		System.out.println("ID 중복 체크");
+		System.out.println(userDTO.getUserName());
+		userDTO = userService.getDetail(userDTO);
+		//userDTO == null 이면 가입 가능 중복 X
+		//userDTO != null 이면 가입 불가 중복 O
+		int result = 0; //중복 0
+		if(userDTO == null) {
+			result = 1; //중복아님
+		}
+		
+		model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
+		
+	}
 	
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String join() throws Exception {
@@ -112,6 +157,8 @@ public class UserController {
 		
 		return "commons/result";
 	}
+	
+	
 	
 	
 

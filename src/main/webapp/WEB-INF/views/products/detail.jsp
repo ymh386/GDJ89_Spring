@@ -17,17 +17,17 @@
 		<h1>Product Detail Page</h1>
 		<c:if test="${not empty dto}">
 			<div>
-			<form action="/test" id=form1>
-				<input type="hidden" name="productNum" value="${dto.productNum}">
-				<button type="button" id="updateBtn">수정</button>
-				<button type="button" id="deleteBtn">삭제</button>
-				<button type="button" id="proceed">진행 버튼</button>
-			</form>
+				<form id="frm" action="/test">
+					<input type="hidden" name="productNum" value="${dto.productNum}">
+					<button type="button" id="up">수정</button>
+					<button type="button" id="del">삭제</button>
+				</form>
+			<button type="button" id="addCart" data-user-name="${user.userName}" data-product-num="${dto.productNum}">장바구니</button>
 			</div>
 			<form>
 			  <div class="mb-3">
 			    <label class="form-label">상품번호</label>
-			    <input type="text" class="form-control" value="${dto.productNum}" readonly>
+			    <input id="productNum" type="text" class="form-control" value="${dto.productNum}" readonly>
 			  </div>
 			  <div class="mb-3">
 			    <label class="form-label">상품이름</label>
@@ -64,5 +64,6 @@
 
 <c:import url="/WEB-INF/views/templates/layout_footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/templates/boot_js.jsp"></c:import>
+<script src="/resources/js/detail.js"></script>
 </body>
 </html>

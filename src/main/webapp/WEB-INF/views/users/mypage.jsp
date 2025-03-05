@@ -38,6 +38,7 @@
 		</div>
 		<div class="col-md-8">
 			<a href="/accounts/list" class="btn btn-success">계좌정보</a>
+			<a href="/users/cart?userName=${dto.userName}">장바구니</a>
 		</div>
 		<div class="col-md-4">
 			<a href="/users/update?userName=${dto.userName}" class="offset-md-4 btn btn-success">정보수정</a>

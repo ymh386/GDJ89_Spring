@@ -14,9 +14,33 @@
 		INSERT INTO USERS VALUES (#{userName}, #{password}, #{name}, #{phone}, #{email})
 	</insert>
 	
+	<insert id="addCart" parameterType="CartDTO">
+		INSERT INTO CARTS VALUES (#{userName}, #{productNum})
+	</insert>
+	
 	<select id="login" resultType="UserDTO" parameterType="UserDTO">
 		SELECT * FROM USERS WHERE USERNAME=#{userName} AND PASSWORD=#{password}
 	</select>
+	
+	<select id="cart" resultMap="cartResult" parameterType="CartDTO">
+		SELECT * FROM PRODUCTS P
+			LEFT OUTER JOIN
+			CARTS C
+			USING(PRODUCTNUM)
+		WHERE USERNAME=#{userName} ORDER BY PRODUCTNUM ASC
+	</select>
+	<resultMap type="ProductDTO" id="cartResult">
+		<id column="PRODUCTNUM" property="productNum"/>
+		<result column="PRODUCTNAME" property="productName"/>
+		<result column="PRODUCTRATE" property="productRate"/>
+		<result column="PRODUCTDATE" property="productDate"/>
+		<result column="PRODUCTDETAIL" property="productDetail"/>
+		<collection property="cartDTOs" javaType="List" ofType="CartDTO">
+			<id column="USERNAME" property="userName"/>
+			<id column="PRODUCTNUM" property="productNum"/>
+		</collection>
+	</resultMap>
+	
 	
 	<select id="getDetail" resultMap="getDetailResult" parameterType="UserDTO">
 		SELECT * FROM USERS U
@@ -25,6 +49,7 @@
 			USING(USERNAME)
 		WHERE USERNAME=#{userName}
 	</select>
+	
 	
 	<resultMap type="UserDTO" id="getDetailResult">
 		<!-- PK column: 컬럼명, property: setter의 이름 -->

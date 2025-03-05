@@ -2,6 +2,7 @@ package com.moon.app.users;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -20,6 +21,15 @@ public class UserService {
 	
 	@Autowired
 	private UserDAO userDAO;
+	
+	public List<CartDTO> cart(CartDTO cartDTO) throws Exception {
+		List<CartDTO> ar = userDAO.cart(cartDTO);
+		return ar;
+	}
+	
+	public int addCart(CartDTO cartDTO) throws Exception {
+		return userDAO.addCart(cartDTO);
+	}
 	
 	public int join(UserDTO userDTO, MultipartFile profile, ServletContext context) throws Exception {
 		int result = userDAO.join(userDTO);

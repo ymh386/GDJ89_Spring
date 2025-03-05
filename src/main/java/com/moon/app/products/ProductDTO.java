@@ -1,6 +1,9 @@
 package com.moon.app.products;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.moon.app.users.CartDTO;
 
 public class ProductDTO {
 	
@@ -14,7 +17,18 @@ public class ProductDTO {
 	private Double productRate;
 	private Date productDate;
 	private String productDetail;
+	private List<CartDTO> cartDTOs;
 	
+	
+
+	public List<CartDTO> getCartDTOs() {
+		return cartDTOs;
+	}
+
+	public void setCartDTOs(List<CartDTO> cartDTOs) {
+		this.cartDTOs = cartDTOs;
+	}
+
 	public Long getProductNum() {
 		return productNum;
 	}
