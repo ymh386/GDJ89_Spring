@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.moon.app.boards.BoardDTO;
 import com.moon.app.pages.Pager;
@@ -27,7 +28,7 @@ public class QnaController {
 	//해당 메소드의 리턴값을 value로 하고 annotation( )안에 값을 키로 하는값을 모델에 담음
 	@ModelAttribute("kind")
 	public String getKind() {
-		return "Qna";
+		return "qna";
 	}
 	
 	@RequestMapping(value = "list", method = RequestMethod.GET)
@@ -83,10 +84,10 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value = "add", method = RequestMethod.POST)
-	public String add(QnaDTO qnaDTO, HttpSession session) throws Exception {
+	public String add(QnaDTO qnaDTO, HttpSession session, MultipartFile [] attaches) throws Exception {
 		UserDTO userDTO = (UserDTO)session.getAttribute("user");
 		qnaDTO.setUserName(userDTO.getUserName());
-		int result = qnaService.add(qnaDTO);
+		int result = qnaService.add(qnaDTO, session, attaches);
 		
 		return "redirect:./list";
 	}

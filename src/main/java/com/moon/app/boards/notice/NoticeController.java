@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.moon.app.boards.BoardDTO;
 import com.moon.app.pages.Pager;
@@ -31,6 +32,7 @@ public class NoticeController {
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String getList(Model model, Pager pager) throws Exception {
+		System.out.println("Notice List");
 		List<BoardDTO> ar = noticeService.getList(pager);
 		
 		model.addAttribute("pager", pager);
@@ -80,11 +82,11 @@ public class NoticeController {
 		
 	
 	@RequestMapping(value="add", method = RequestMethod.POST)
-	public String add(NoticeDTO boardDTO, HttpSession session)throws Exception{
+	public String add(NoticeDTO boardDTO, HttpSession session, MultipartFile [] attaches)throws Exception{
 		
 		UserDTO userDTO = (UserDTO)session.getAttribute("user");
 		boardDTO.setUserName(userDTO.getUserName());
-		int result = noticeService.add(boardDTO);
+		int result = noticeService.add(boardDTO, session, attaches);
 		
 		return "redirect:./list";
 	}

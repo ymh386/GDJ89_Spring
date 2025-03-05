@@ -16,6 +16,14 @@
 		<!--  contents 내용 작성 -->
 		<h1>Product Detail Page</h1>
 		<c:if test="${not empty dto}">
+			<div>
+			<form action="/test" id=form1>
+				<input type="hidden" name="productNum" value="${dto.productNum}">
+				<button type="button" id="updateBtn">수정</button>
+				<button type="button" id="deleteBtn">삭제</button>
+				<button type="button" id="proceed">진행 버튼</button>
+			</form>
+			</div>
 			<form>
 			  <div class="mb-3">
 			    <label class="form-label">상품번호</label>
