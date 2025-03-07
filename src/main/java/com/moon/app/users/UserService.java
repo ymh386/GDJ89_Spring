@@ -2,7 +2,9 @@ package com.moon.app.users;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -15,6 +17,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.moon.app.files.FileManager;
+import com.moon.app.pages.Pager;
 
 @Service
 public class UserService {
@@ -22,13 +25,24 @@ public class UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	public List<CartDTO> cart(CartDTO cartDTO) throws Exception {
-		List<CartDTO> ar = userDAO.cart(cartDTO);
+	public int cartDelete(Map<String, Object> map) throws Exception{
+		return userDAO.cartDelete(map);
+	}
+	
+	public List<CartDTO> cart(Pager pager, Object userDTO) throws Exception {
+		
+		pager.make(userDAO.getCartTotalCount(userDTO));
+		
+		pager.makeNum();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pager", pager);
+		map.put("user", userDTO);
+		List<CartDTO> ar = userDAO.cart(map);
 		return ar;
 	}
 	
-	public int addCart(CartDTO cartDTO) throws Exception {
-		return userDAO.addCart(cartDTO);
+	public int addCart(Map<String, Object> map) throws Exception {
+		return userDAO.addCart(map);
 	}
 	
 	public int join(UserDTO userDTO, MultipartFile profile, ServletContext context) throws Exception {

@@ -1,6 +1,8 @@
 package com.moon.app.users;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.moon.app.pages.Pager;
 import com.moon.app.products.ProductDTO;
 
 @Controller
@@ -23,21 +26,37 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@RequestMapping(value = "cartDelete", method = RequestMethod.GET)
+	public String cartDelete(Long [] productNum, HttpSession session, Model model) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", session.getAttribute("user"));
+		map.put("product", productNum);
+		
+		int result = userService.cartDelete(map);
+		
+		model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
+		
+	}
+	
 	@RequestMapping(value = "cart", method = RequestMethod.GET)
-	public String cart(CartDTO cartDTO, HttpSession session, Model model) throws Exception {
-		List<CartDTO> ar = userService.cart(cartDTO);
+	public String cart(Pager pager, HttpSession session, Model model) throws Exception {
+		List<CartDTO> ar = userService.cart(pager, (UserDTO)session.getAttribute("user"));
 		
 		model.addAttribute("list", ar);
+		model.addAttribute("pager", pager);
 		
 		return "users/cart";
 		
 	}
 	
 	@RequestMapping(value = "addCart", method = RequestMethod.GET)
-	public String addCart(CartDTO cartDTO, HttpSession session, Model model) throws Exception {
-		UserDTO userDTO = (UserDTO)session.getAttribute("user");
-		cartDTO.setUserName(userDTO.getUserName());
-		int result = userService.addCart(cartDTO);
+	public String addCart(ProductDTO productDTO, HttpSession session, Model model) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("product", productDTO);
+		map.put("user", session.getAttribute("user"));
+		int result = userService.addCart(map);
 		
 		model.addAttribute("result", result);
 		

@@ -14,21 +14,49 @@
 		INSERT INTO USERS VALUES (#{userName}, #{password}, #{name}, #{phone}, #{email})
 	</insert>
 	
-	<insert id="addCart" parameterType="CartDTO">
-		INSERT INTO CARTS VALUES (#{userName}, #{productNum})
+	<insert id="addCart" parameterType="Map">
+		INSERT INTO CARTS VALUES (#{user.userName}, #{product.productNum})
 	</insert>
 	
 	<select id="login" resultType="UserDTO" parameterType="UserDTO">
 		SELECT * FROM USERS WHERE USERNAME=#{userName} AND PASSWORD=#{password}
 	</select>
 	
-	<select id="cart" resultMap="cartResult" parameterType="CartDTO">
-		SELECT * FROM PRODUCTS P
-			LEFT OUTER JOIN
-			CARTS C
-			USING(PRODUCTNUM)
-		WHERE USERNAME=#{userName} ORDER BY PRODUCTNUM ASC
+	<select id="getCartTotalCount" resultType="Long" parameterType="UserDTO">
+		SELECT COUNT(USERNAME) FROM CARTS
+		WHERE USERNAME=#{userName}
 	</select>
+	
+	<select id="cart" resultType="ProductDTO" parameterType="Map">
+		SELECT * FROM
+  		(
+  			SELECT ROWNUM R,C.*
+	  		FROM (
+	  				SELECT PRODUCTNUM, PRODUCTNAME,PRODUCTRATE, PRODUCTDATE 
+	  				FROM PRODUCTS
+	  				WHERE PRODUCTNUM
+	  				  In (SELECT PRODUCTNUM FROM CARTS WHERE USERNAME=#{user.userName})
+	  				ORDER BY PRODUCTNUM DESC
+	  			 )C
+  		)
+  		WHERE R BETWEEN #{pager.startNum} AND #{pager.endNum}
+  	</select>
+<!--  
+
+		SELECT * FROM
+		(
+			SELECT ROWNUM R,A.*
+			FROM (
+				SELECT * FROM PRODUCTS P
+					LEFT OUTER JOIN
+					CARTS C
+					USING(PRODUCTNUM)
+				WHERE USERNAME=#{userName} ORDER BY PRODUCTNUM ASC
+				)A
+		
+		)
+		WHERE R BETWEEN #{pager.startNum} AND #{paget.endNum}
+	
 	<resultMap type="ProductDTO" id="cartResult">
 		<id column="PRODUCTNUM" property="productNum"/>
 		<result column="PRODUCTNAME" property="productName"/>
@@ -40,8 +68,19 @@
 			<id column="PRODUCTNUM" property="productNum"/>
 		</collection>
 	</resultMap>
+	-->
 	
+	<delete id="cartDelete" parameterType="Map">
+		DELETE CARTS
+		WHERE USERNAME=#{user.userName}
+			AND
+			PRODUCTNUM IN
+			<foreach item="item" collection="product" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
 	
+	<!-- map user:UserDTO, product, Long [] -->
 	<select id="getDetail" resultMap="getDetailResult" parameterType="UserDTO">
 		SELECT * FROM USERS U
 			LEFT OUTER JOIN

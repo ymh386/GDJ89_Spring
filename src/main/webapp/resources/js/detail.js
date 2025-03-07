@@ -20,14 +20,17 @@ addCart.addEventListener("click", ()=>{
         .then(res=>res.text())
         .then(res=>{
             if(res.trim()=='1'){
-                if(confirm("장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?")){
+                let r = confirm("장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?")
+                if(r){
                     alert("장바구니로 이동합니다.")
-                    location.href="../users/cart?userName=" + userName
+                    location.href="../users/cart"
                 }
             }else {
                 alert("로그인 후 이용해주세요")
             }
     
+        }).catch(e=>{
+            alert("로그인 후 이용해주세요")
         })
 })
 

@@ -1,6 +1,7 @@
 package com.moon.app.users;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,20 @@ public class UserDAO {
 	private SqlSession sqlSession;
 	private final String NAMESPACE = "com.moon.app.users.UserDAO.";
 	
-	public List<CartDTO> cart(CartDTO cartDTO) throws Exception {
-		return sqlSession.selectList(NAMESPACE + "cart", cartDTO);
+	public int cartDelete(Map<String, Object> map) throws Exception {
+		return sqlSession.delete(NAMESPACE + "cartDelete", map);
 	}
 	
-	public int addCart(CartDTO cartDTO) throws Exception {
-		return sqlSession.insert(NAMESPACE + "addCart", cartDTO);
+	public List<CartDTO> cart(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(NAMESPACE + "cart", map);
+	}
+	
+	public Long getCartTotalCount(Object userDTO) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "getCartTotalCount", userDTO);
+	}
+	
+	public int addCart(Map<String, Object> map) throws Exception {
+		return sqlSession.insert(NAMESPACE + "addCart", map);
 	}
 	
 	public int join(UserDTO userDTO) throws Exception {
