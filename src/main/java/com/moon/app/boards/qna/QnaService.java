@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.moon.app.boards.BoardDTO;
 import com.moon.app.boards.BoardFileDTO;
 import com.moon.app.boards.BoardService;
+import com.moon.app.boards.notice.NoticeDTO;
 import com.moon.app.files.FileManager;
 import com.moon.app.pages.Pager;
 
@@ -21,6 +22,8 @@ public class QnaService implements BoardService{
 	
 	@Autowired
 	private QnaDAO qnaDAO;
+	@Autowired
+	private FileManager fileManager;
 	
 	public List<BoardDTO> getList(Pager pager) throws Exception {
 		Long totalCount = qnaDAO.count(pager);
@@ -53,12 +56,33 @@ public class QnaService implements BoardService{
 		return result;
 	}
 	
-	public int update(BoardDTO boardDTO)throws Exception{
-		return qnaDAO.update(boardDTO);
+	public int update(BoardDTO boardDTO, MultipartFile [] attaches, HttpSession session)throws Exception{
+		int result = qnaDAO.update(boardDTO);
+		for(MultipartFile attach : attaches) {
+			if(attach.isEmpty()) {
+				continue;
+			}
+			BoardFileDTO boardFileDTO = this.fileSave(attach, session.getServletContext());
+			boardFileDTO.setBoardNum(boardDTO.getBoardNum());
+			result = qnaDAO.addFile(boardFileDTO);
+		}
+		return result;
+		
 	}
 	
-	public int delete(BoardDTO boardDTO)throws Exception{
-		return qnaDAO.delete(boardDTO);
+	public int delete(BoardDTO boardDTO, HttpSession session)throws Exception{
+		boardDTO = qnaDAO.getDetail(boardDTO);
+		int result = qnaDAO.delete(boardDTO);
+		
+		if(result > 0) {
+			String path = session.getServletContext().getRealPath("/resources/images/qna/");
+			System.out.println(path);
+			for(BoardFileDTO boardFileDTO: ((QnaDTO)boardDTO).getBoardFileDTOs()) {
+				fileManager.fileDelete(path, boardFileDTO.getFileName());
+				
+			}
+		}
+		return result;
 	}
 	
 	public int reply(QnaDTO qnaDTO)throws Exception {
@@ -78,6 +102,21 @@ public class QnaService implements BoardService{
 		result = qnaDAO.reply(qnaDTO);
 		
 		return result;
+	}
+	
+	public int fileDelete(BoardFileDTO boardFileDTO, HttpSession session) throws Exception {
+		boardFileDTO = qnaDAO.getFileDetail(boardFileDTO);
+		int result = qnaDAO.fileDelete(boardFileDTO);
+		if(result > 0) {
+			String path = session.getServletContext().getRealPath("/resources/images/qna/");
+			System.out.println(path);
+			fileManager.fileDelete(path, boardFileDTO.getFileName());
+		}
+		return result;
+	}
+	
+	public BoardFileDTO getFileDetail(BoardFileDTO boardFileDTO) throws Exception {
+		return qnaDAO.getFileDetail(boardFileDTO);
 	}
 	
 	private BoardFileDTO fileSave(MultipartFile attach, ServletContext servletContext)throws Exception{

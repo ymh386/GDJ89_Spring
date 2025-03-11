@@ -26,8 +26,17 @@
 		    <label for="inputProductDetail" class="form-label">Contents</label>
 		    <textarea rows="10" cols="" name="boardContent" class="form-control" id="inputProductDetail">${dto.boardContent}</textarea>
 		  </div>
-		  <div id="files" class="files1">
-			<button type="button" id="add_f	ile" class="btn btn-info">파일 추가</button>
+
+		  <div class="mb-3">
+			<c:forEach items="${dto.boardFileDTOs}" var="f">
+				<div class="alert alert-success" role="alert">
+					${f.oldName}<button type="button" data-file-num="${f.fileNum}" data-kind="${kind}" class="badge text-bg-secondary file-delete">X</button>
+				  </div>
+			</c:forEach>
+		  </div>
+
+		  <div id="files" class="mb-3" data-files-size="${dto.boardFileDTOs.size()}">
+			<button type="button" id="add_file" class="btn btn-info">파일 추가</button>
 		  </div>
 		  <div class="col-md-4">
 			  <button type="submit" class="btn btn-success">확인</button>
@@ -37,8 +46,8 @@
 	</div>
 </div>
 
-
-<script src="/resources/js/files/fileManager.js"></script>
+<script type="module" src="/resources/js/files/fileManager.js"></script>
+<!-- <script src="/resources/js/files/fileDelete.js"></script> -->
 <c:import url="/WEB-INF/views/templates/layout_footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/templates/boot_js.jsp"></c:import>
 </body>

@@ -69,5 +69,22 @@ public class ProductDAO {
 	public Map<String, Object> test2() throws Exception {
 		return sqlSession.selectOne(NAMESPACE + "test2");
 	}
+	
+	//------------------------Comments------------------------------
+	public int addComments(CommentsDTO commentsDTO)throws Exception {
+		return sqlSession.insert(NAMESPACE + "addComments", commentsDTO);
+	}
+	
+	public List<CommentsDTO> getCommentList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList(NAMESPACE + "getCommentList", map);
+	}
+	
+	public Long getCommentsTotalCount(CommentsDTO commentsDTO)throws Exception{
+		return sqlSession.selectOne(NAMESPACE+"getCommentsTotalCount", commentsDTO);
+	}
+	
+	public int deleteComments(CommentsDTO commentsDTO) throws Exception {
+		return sqlSession.delete(NAMESPACE + "deleteComments", commentsDTO);
+	}
 
 }

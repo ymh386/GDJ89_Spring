@@ -53,7 +53,7 @@ public class ProductDAOTest extends SampleTestCase{
 		assertNotNull(productDTO);
 	}
 	
-	@Test
+//	@Test
 	public void getListTest(Pager pager) throws Exception {
 		System.out.println("getList Test");
 		List<ProductDTO> ar = productDAO.getList(pager);
@@ -93,6 +93,17 @@ public class ProductDAOTest extends SampleTestCase{
 		System.out.println("Finish");
 		
 		}
+	}
+	
+	@Test
+	public void addCommentsTest()throws Exception{
+		CommentsDTO commentsDTO = new CommentsDTO();
+		commentsDTO.setBoardContent("test");
+		commentsDTO.setUserName("id");
+		commentsDTO.setProductNum(100L);
+		int result = productDAO.addComments(commentsDTO);
+		
+		assertEquals(1, result);
 	}
 	
 

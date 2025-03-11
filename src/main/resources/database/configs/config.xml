@@ -8,6 +8,7 @@
 		<typeAlias type="com.moon.app.users.UserDTO" alias="UserDTO"/>
 		<typeAlias type="com.moon.app.users.UserFileDTO" alias="UserFileDTO"/>
 		<typeAlias type="com.moon.app.products.ProductDTO" alias="ProductDTO"/>
+		<typeAlias type="com.moon.app.products.CommentsDTO" alias="CommentsDTO"/>
 		<typeAlias type="com.moon.app.boards.BoardDTO" alias="BoardDTO"/>
 		<typeAlias type="com.moon.app.boards.BoardFileDTO" alias="BoardFileDTO"/>
 		<typeAlias type="com.moon.app.boards.notice.NoticeDTO" alias="NoticeDTO"/>

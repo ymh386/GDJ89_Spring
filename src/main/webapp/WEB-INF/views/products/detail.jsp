@@ -46,6 +46,19 @@
 			    <textarea rows="10" cols="" class="form-control" readonly>${dto.productDetail}</textarea>
 			  </div>
 			</form>
+			<div class="mb-3">
+				<div class="mb-3">
+					<label for="commentsContent" class="form-label">댓글</label>
+					<textarea class="form-control" id="commentsContent" rows="3"></textarea>
+					<button type="button" class="btn btn-outline-primary mt-3" id="addComments"  data-product-num="${dto.productNum}">등록</button>
+				</div>
+			</div>
+
+			<div class="mb-3" id="commentsListResult">
+
+				
+			</div>
+
 			<div class="col-md-12">
 				<c:if test="${not empty user and user.userName == 'admin'}">
 					<a href="./update?productNum=${dto.productNum}" class="col-md-1 btn btn-success">수정</a>
@@ -64,6 +77,6 @@
 
 <c:import url="/WEB-INF/views/templates/layout_footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/templates/boot_js.jsp"></c:import>
-<script src="/resources/js/detail.js"></script>
+<script src="/resources/js/products/detail.js"></script>
 </body>
 </html>

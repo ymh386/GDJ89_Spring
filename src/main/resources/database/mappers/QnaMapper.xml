@@ -79,6 +79,14 @@
   		DELETE QNA WHERE BOARDNUM =#{boardNum}
   	</delete>
   	
+  	<delete id="fileDelete" parameterType="BoardFileDTO">
+  		DELETE QNAFILES WHERE FILENUM=#{fileNum}
+  	</delete>
+  	
+  	<select id="getFileDetail" resultType="BoardFileDTO" parameterType="BoardFileDTO">
+  		SELECT * FROM QNAFILES WHERE FILENUM=#{fileNum}
+  	</select>
+  	
   	<update id="updateHit" parameterType="QnaDTO">
   		UPDATE QNA SET BOARDHIT=BOARDHIT+1
   		WHERE BOARDNUM=#{boardNum}

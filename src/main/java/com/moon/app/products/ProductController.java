@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.moon.app.pages.Pager;
+import com.moon.app.users.UserDTO;
 
 @Controller
 @RequestMapping(value = "/products/*")
@@ -111,5 +112,44 @@ public class ProductController {
 		int result = productService.delete(productDTO);
 		
 		return "redirect:./list";
+	}
+	
+	//------------------ Comments ------------------------
+	//addComments
+	@RequestMapping(value = "addComments", method = RequestMethod.POST)
+	public String addComments(CommentsDTO commentsDTO, HttpSession session, Model model)throws Exception{
+		
+		
+		UserDTO userDTO = (UserDTO)session.getAttribute("user");
+		commentsDTO.setUserName(userDTO.getUserName());
+		
+		int result = productService.addComments(commentsDTO);
+		
+		model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
+	}
+	
+	@RequestMapping(value="listComments", method=RequestMethod.GET)
+	public String listComments(Pager pager, CommentsDTO commentsDTO, Model model) throws Exception {
+		System.out.println("comments list");
+		
+		List<CommentsDTO> ar = productService.getCommentList(commentsDTO, pager);
+		
+		model.addAttribute("list", ar);
+		
+		return "commons/commentsList";
+	}
+	
+	@RequestMapping(value="deleteComments", method=RequestMethod.GET)
+	public String deleteComments(CommentsDTO commentsDTO, Model model, HttpSession session) throws Exception {
+		UserDTO userDTO = (UserDTO)session.getAttribute("user");
+		commentsDTO.setUserName(userDTO.getUserName());
+		
+		int result = productService.deleteComments(commentsDTO);
+		
+		model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
 	}
 }

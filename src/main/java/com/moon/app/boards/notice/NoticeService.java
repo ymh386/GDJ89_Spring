@@ -21,6 +21,8 @@ public class NoticeService implements BoardService {
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
+	@Autowired
+	private FileManager fileManager;
 
 	public List<BoardDTO> getList(Pager pager) throws Exception {
 		Long totalCount = noticeDAO.count(pager);
@@ -52,12 +54,59 @@ public class NoticeService implements BoardService {
 		return result;
 	}
 	
-	public int update(BoardDTO boardDTO)throws Exception{
-		return noticeDAO.update(boardDTO);
+	public int update(BoardDTO boardDTO, MultipartFile [] attaches, HttpSession session)throws Exception{
+		int result =  noticeDAO.update(boardDTO);
+		for(MultipartFile attach: attaches) {
+			if(attach.isEmpty()) {
+				continue;
+			}
+			BoardFileDTO boardFileDTO = this.fileSave(attach, session.getServletContext());
+			boardFileDTO.setBoardNum(boardDTO.getBoardNum());
+			result = noticeDAO.addFile(boardFileDTO);
+		}
+		
+		return result;
 	}
 	
-	public int delete(BoardDTO boardDTO)throws Exception{
-		return noticeDAO.delete(boardDTO);
+	public int delete(BoardDTO boardDTO, HttpSession session)throws Exception{
+		//1. 파일들의 정보를 조회
+		boardDTO = noticeDAO.getDetail(boardDTO);
+//		int result = noticeDAO.fileDeleteAll(boardDTO);
+		int result = noticeDAO.delete(boardDTO);
+		
+		//3. HDD 삭제
+		if(result > 0) {
+			String path = session.getServletContext().getRealPath("/resources/images/notice/");
+			System.out.println(path);
+			for(BoardFileDTO boardFileDTO: ((NoticeDTO)boardDTO).getBoardFileDTOs()) {
+				fileManager.fileDelete(path, boardFileDTO.getFileName());
+				
+			}
+		}
+		
+		
+		
+		return result;
+	}
+	
+	public int fileDelete(BoardFileDTO boardFileDTO, HttpSession session) throws Exception{
+		
+		//1. 정보 조회
+		boardFileDTO = noticeDAO.getFileDetail(boardFileDTO);
+		//2. DB삭제
+		int result = noticeDAO.fileDelete(boardFileDTO);
+		//3. HDD 삭제
+		if(result > 0) {
+			String path = session.getServletContext().getRealPath("/resources/images/notice/");
+			System.out.println(path);
+			fileManager.fileDelete(path, boardFileDTO.getFileName());
+		}
+		
+		return result;
+	}
+	
+	public BoardFileDTO getFileDetail(BoardFileDTO boardFileDTO) throws Exception {
+		return noticeDAO.getFileDetail(boardFileDTO);
 	}
 	
 	private BoardFileDTO fileSave(MultipartFile attach, ServletContext servletContext)throws Exception{

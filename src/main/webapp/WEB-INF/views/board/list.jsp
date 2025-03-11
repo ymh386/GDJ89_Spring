@@ -34,7 +34,7 @@
 			      		<c:catch>
 			      			<c:forEach begin="1" end="${v.boardDepth}">-></c:forEach>${v.boardTitle}
 			      		</c:catch>
-			      		<c:if test="${kind == 'Notice'}">
+			      		<c:if test="${kind == 'notice'}">
 			      			${v.boardTitle}
 			      		</c:if>
 			      	</a>
