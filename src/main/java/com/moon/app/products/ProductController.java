@@ -152,4 +152,17 @@ public class ProductController {
 		
 		return "commons/ajaxResult";
 	}
+	
+	
+	@RequestMapping(value="updateComments", method=RequestMethod.POST)
+	public String updateComments(CommentsDTO commentsDTO, HttpSession session, Model model) throws Exception {
+		UserDTO userDTO = (UserDTO)session.getAttribute("user");
+		commentsDTO.setUserName(userDTO.getUserName());
+		
+		int result = productService.updateComments(commentsDTO);
+		
+		model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
+	}
 }

@@ -14,6 +14,7 @@ const commentsContent = document.getElementById("commentsContent");
 const commentsListResult = document.getElementById("commentsListResult");
 const pages = document.getElementsByClassName("pages");
 const deleteComments = document.getElementsByClassName("deleteComments");
+const modal_change = document.getElementById("modal_change");
 
 
 
@@ -165,3 +166,52 @@ commentsListResult.addEventListener('click', async (e)=>{
     }
     
 })
+
+//------------------------ Update --------------------------------
+commentsListResult.addEventListener('click', async (e)=>{
+    if(e.target.classList.contains('updateComments')){
+        let ud = e.target;//button
+        let ud_s = ud.parentElement.previousElementSibling.previousElementSibling
+        
+        let c = ud_s.innerHTML;
+        
+        let bn = ud.getAttribute("id")
+        // ud_s.innerHTML=`<textarea>${c}</textarea>`;
+        document.getElementById('message-text').value=c;
+        document.getElementById('message-text').setAttribute('data-boardNum', bn)
+        
+
+        
+    }
+})
+
+modal_change.addEventListener('click', async ()=>{
+    let m = document.getElementById('message-text')
+
+    let f = new FormData();
+    f.append("boardNum", m.getAttribute('data-boardNum'))
+    f.append("boardContent", m.value)
+
+    //commentsUpdate post
+    fetch("./updateComments", {
+        method: "POST",
+        body: f
+    })
+    .then(r => r.text())
+    .then(r => {
+        document.getElementById(`c${m.getAttribute("data-boardNum")}`).innerHTML=m.value;
+        if(r.trim()*1>0){
+            alert("수정 완료")
+        }else{
+            alert("수정 실패")
+        }
+    })
+    .catch(e => console.log(e))
+    .finally(()=>{
+        m.value="";
+        m.setAttribute("data-boardNum", "");
+        document.getElementById('modal_close').click();
+    })
+})
+
+

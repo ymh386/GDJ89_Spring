@@ -59,6 +59,31 @@
 				
 			</div>
 
+			<!-- Button trigger modal -->
+			
+			
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="mb-3">
+								<label for="message-text" class="col-form-label">Message:</label>
+								<textarea data-boardNum="" class="form-control" id="message-text"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal_close">Close</button>
+							<button type="button" class="btn btn-primary" id="modal_change">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="col-md-12">
 				<c:if test="${not empty user and user.userName == 'admin'}">
 					<a href="./update?productNum=${dto.productNum}" class="col-md-1 btn btn-success">수정</a>

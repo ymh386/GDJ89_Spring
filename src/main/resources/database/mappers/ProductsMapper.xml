@@ -108,5 +108,9 @@
   	<delete id="deleteComments" parameterType="CommentsDTO">
   		DELETE COMMENTS WHERE BOARDNUM = #{boardNum} AND USERNAME = #{userName}
   	</delete>
+  	
+  	<update id="updateComments" parameterType="CommentsDTO">
+  		UPDATE COMMENTS SET BOARDCONTENT=#{boardContent} WHERE BOARDNUM=#{boardNum} AND USERNAME=#{userName}
+  	</update>
   
   </mapper>
