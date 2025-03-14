@@ -5,10 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.print.attribute.standard.PageRanges;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.moon.app.files.FileDTO;
+import com.moon.app.files.FileManager;
 import com.moon.app.pages.Pager;
 
 @Service
@@ -16,6 +21,12 @@ public class ProductService {
 	
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Autowired
+	private FileManager fileManager;
+	
+	@Value("${products.file.path}")
+	private String path;
 	
 	
 	//list
@@ -60,6 +71,20 @@ public class ProductService {
 		int result = productDAO.delete(productDTO);
 		
 		return result;
+	}
+	
+	public String detailFiles(HttpSession session, MultipartFile files)throws Exception{
+		String path = session.getServletContext().getRealPath("/resources/images/products/");
+		System.out.println(path);
+		String fileName = FileManager.fileSave(path, files);
+		return fileName;
+		
+	}
+	
+	public void detailFilesDelete(FileDTO fileDTO, HttpSession session) throws Exception {
+		String path = session.getServletContext().getRealPath("/resources/images/products/");
+		System.out.println(path);
+		fileManager.fileDelete(path, fileDTO.getFileName());
 	}
 	
 	//------------------ Comments ------------------

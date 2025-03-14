@@ -6,13 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.moon.app.files.FileDTO;
 import com.moon.app.pages.Pager;
 import com.moon.app.users.UserDTO;
 
@@ -22,6 +25,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Value("${products.file.path}")
+	private String path;
 	
 	/**
 	 * Model -> 
@@ -112,6 +118,29 @@ public class ProductController {
 		int result = productService.delete(productDTO);
 		
 		return "redirect:./list";
+	}
+	
+	@RequestMapping(value = "detailFiles", method = RequestMethod.POST)
+	public String detailFiles (MultipartFile uploadFile,HttpSession session, Model model)throws Exception{
+		String fileName = productService.detailFiles(session, uploadFile);
+		
+		fileName = "/resources/images/products/"+fileName;
+		
+		model.addAttribute("result", fileName);
+		
+		return "commons/ajaxResult";
+	}
+	
+	@RequestMapping(value = "detailFilesDelete", method = RequestMethod.POST)
+	public String detailFilesDelete (FileDTO fileDTO, HttpSession session, Model model)throws Exception{
+		System.out.println(fileDTO.getFileName());
+		
+		productService.detailFilesDelete(fileDTO, session);
+		
+		model.addAttribute("result", 1);
+		
+		
+		return "commons/ajaxResult";
 	}
 	
 	//------------------ Comments ------------------------

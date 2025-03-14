@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="/WEB-INF/views/templates/boot_css.jsp"></c:import>
+<c:import url="/WEB-INF/views/templates/summernote.jsp"></c:import>
 </head>
 <body>
 <c:import url="/WEB-INF/views/templates/layout_header.jsp"></c:import>
@@ -30,8 +31,8 @@
 		    <input type="date" name="productDate" class="form-control" id="inputProductRate">
 		  </div>
 		  <div class="mb-3">
-		    <label for="inputProductDetail" class="form-label">상품설명</label>
-		    <textarea rows="10" cols="" name="productDetail" class="form-control" id="inputProductDetail"></textarea>
+		    <label for="detail" class="form-label">상품설명</label>
+		    <textarea rows="10" cols="" name="productDetail" class="form-control" id="detail"></textarea>
 		  </div>
 		  <div class="col-md-4">
 			  <button type="submit" class="btn btn-success">등록</button>
@@ -45,5 +46,6 @@
 
 <c:import url="/WEB-INF/views/templates/layout_footer.jsp"></c:import>
 <c:import url="/WEB-INF/views/templates/boot_js.jsp"></c:import>
+<script src="/resources/js/files/summernote.js"></script>
 </body>
 </html>

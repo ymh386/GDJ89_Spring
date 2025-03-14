@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.moon.app.SampleTestCase;
 import com.moon.app.pages.Pager;
@@ -21,6 +22,14 @@ public class ProductDAOTest extends SampleTestCase{
 
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Value("${my.user}")
+	private String userName;
+	
+	@Test
+	public void userNameTest() {
+		System.out.println(userName);
+	}
 	
 	@BeforeClass
 	public static void bf() {

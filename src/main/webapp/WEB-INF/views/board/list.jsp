@@ -65,9 +65,18 @@
 			  </ul>
 			</nav>
 		</div>
-		<div class="col-md-4">
-			<a href="./add" class="btn btn-success">글 작성</a>
-		</div>
+		
+		<c:if test="${kind eq 'notice' and not empty user and user.userName eq 'id'}">
+			<div class="col-md-4">
+				<a href="./add" class="btn btn-success">글 작성</a>
+			</div>
+		</c:if>
+		
+		<c:if test="${kind ne 'notice' and not empty user}">
+			<div class="col-md-4">
+				<a href="./add" class="btn btn-success">글 작성</a>
+			</div>
+		</c:if>
 	</div>
 </div>
 
