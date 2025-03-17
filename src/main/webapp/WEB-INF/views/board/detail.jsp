@@ -52,7 +52,9 @@
 				<a href="./update?boardNum=${dto.boardNum}" class="btn btn-success">수정</a>
 				<a href="./delete?boardNum=${dto.boardNum}" class="btn btn-danger">삭제</a>
 			</c:if>
-			<a href="./reply?boardNum=${dto.boardNum}" class="btn btn-success">답글</a>
+			<c:if test="${kind ne 'notice'}">
+				<a href="./reply?boardNum=${dto.boardNum}" class="btn btn-success">답글</a>
+			</c:if>
 			<a href="./list" class="col-md-1 offset-md-8 btn btn-success">리스트</a>
 		</div>		
 		
