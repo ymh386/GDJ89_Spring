@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -110,8 +111,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(UserDTO userDTO, HttpSession session, Model model) throws Exception {
-		userDTO = userService.login(userDTO);
+	public String login(UserDTO userDTO, HttpSession session, Model model) {
+		try {
+			userDTO = userService.login(userDTO);
+		}catch (Exception e) {
+			model.addAttribute("result", e.getMessage());
+			return "users/login";
+		}
 		if(userDTO != null) {
 			session.setAttribute("user", userDTO);
 			
@@ -175,6 +181,12 @@ public class UserController {
 		session.invalidate();
 		
 		return "commons/result";
+	}
+	
+	@ExceptionHandler(NullPointerException.class)
+	public String error1() {
+		
+		return "errors/error_500";
 	}
 	
 	

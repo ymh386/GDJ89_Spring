@@ -16,6 +16,7 @@
 		<!--  contents 내용 작성 -->
 		<a href="../index" class="offset-md-11 btn-close"></a> 
 		<h1>Login</h1>
+		<h3>${result}</h3>
 		<form action="./login" method="post">
 		  <div class="mb-3">
 		    <label for="inputUserName" class="form-label">Username</label>

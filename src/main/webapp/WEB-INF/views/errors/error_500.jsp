@@ -15,6 +15,7 @@
 	<div class="row col-md-8 offset-md-2">
 		<!--  contents 내용 작성 -->
 		<h1>관리자에게 문의 하세요</h1>
+		<h3>${result}</h3>
 		
 	</div>
 </div>
